@@ -1,7 +1,6 @@
 package Utils
 
 import (
-	"PredictIt/Stats"
 	"fmt"
 	"net/http"
 	"path"
@@ -30,7 +29,7 @@ func (F Forecast) SetOdds(sims uint64) {
 		mx = 0
 		b = 0
 		for j, c := range F {
-			r = Stats.RandGammaVariate(c.ConcentrationParam)
+			r = RandGammaVariate(c.ConcentrationParam)
 			if r > mx {
 				mx = r
 				b = j
