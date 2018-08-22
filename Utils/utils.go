@@ -81,7 +81,7 @@ func RandGammaVariate(k float64) float64 {
 }
 
 func FixName(c string) string {
-	vals := strings.Split(c, " ")
+	vals := strings.Split(strings.TrimSpace(c), " ")
 	first := vals[0]
 	lastidx := len(vals) - 1
 	for (strings.HasPrefix(vals[lastidx], "(") && strings.HasSuffix(vals[lastidx], ")")) || vals[lastidx] == "Jr" || vals[lastidx] == "Jr." || vals[lastidx] == "Sr" || vals[lastidx] == "Sr." || vals[lastidx] == "I" || vals[lastidx] == "II" || vals[lastidx] == "III" || vals[lastidx] == "" {
@@ -89,5 +89,12 @@ func FixName(c string) string {
 	}
 	last := vals[lastidx]
 	last = strings.TrimSuffix(last, ",")
-	return strings.Title(strings.ToLower(first + " " + last))
+	name := strings.Title(strings.ToLower(first + " " + last))
+	if lastidx == 0 {
+		name = strings.Title(strings.ToLower(first))
+	}
+	if n, ok := name_fixes[name]; ok {
+		name = n
+	}
+	return name
 }

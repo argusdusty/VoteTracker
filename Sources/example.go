@@ -17,8 +17,8 @@ func (U *ExampleSource) Load(Data Summary) (result Summary, err error) {
 	// Here you would load from an API or other online website to get the current results using `LoadURL` (which caches for a few seconds and sends valid If-Modified-Since headers)
 
 	// Do results
-	result.Candidates = append(result.Candidates, SummaryCandidate{Candidate: "argusdusty", Votes: 100})
-	result.Candidates = append(result.Candidates, SummaryCandidate{Candidate: "badguy", Votes: 1})
+	result.Candidates = append(result.Candidates, SummaryCandidate{Candidate: "argusdusty", Votes: 100, Winner: true, PartyLetter: "A"})
+	result.Candidates = append(result.Candidates, SummaryCandidate{Candidate: "badguy", Votes: 1, Winner: false, PartyLetter: "B"})
 	for _, c := range result.Candidates {
 		result.TotalVotes += c.Votes
 	}
@@ -26,8 +26,8 @@ func (U *ExampleSource) Load(Data Summary) (result Summary, err error) {
 
 	// Do a region
 	region := result.Regions["fips"]
-	region.Candidates = append(region.Candidates, SummaryCandidate{Candidate: "argusdusty", Votes: 100})
-	region.Candidates = append(region.Candidates, SummaryCandidate{Candidate: "badguy", Votes: 1})
+	region.Candidates = append(region.Candidates, RegionCandidate{Candidate: "argusdusty", Votes: 100})
+	region.Candidates = append(region.Candidates, RegionCandidate{Candidate: "badguy", Votes: 1})
 	for _, c := range region.Candidates {
 		region.TotalVotes += c.Votes
 	}

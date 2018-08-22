@@ -1,27 +1,7 @@
 [
   {
-    "name": "Georgia Governor Dem Primary 2018",
-    "race": "GAPrimaryGovDem",
-    "date": "20180522"
-  },
-  {
-    "name": "Georgia Governor GOP Primary 2018",
-    "race": "GAPrimaryGovGOP",
-    "date": "20180522"
-  },
-  {
-    "name": "Texas Governor Dem Primary Runoff 2018",
-    "race": "TXPrimaryRunoffGovDem",
-    "date": "20180522"
-  },
-  {
-    "name": "Arkansas Governor Dem Primary 2018",
-    "race": "ARPrimaryGovDem",
-    "date": "20180522"
-  },
-  {
-    "name": "Arkansas Governor GOP Primary 2018",
-    "race": "ARPrimaryGovGOP",
-    "date": "20180522"
+    "name": "Example Race",
+    "race": "ExampleRace",
+    "date": "ExampleDate"
   }
 ]

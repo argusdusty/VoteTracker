@@ -35,7 +35,7 @@ var race = path[2];
 $.getJSON("/" + date + "/" + race + "/summary.json", function(summary) {
 	var totalC = 0.0;
 	for (var key in summary.forecast) {
-		console.log(key, summary.forecast, summary.forecast[key]);
+		//console.log(key, summary.forecast, summary.forecast[key]);
 		totalC += summary.forecast[key].concentration_param;
 	}
 	var min = N;
@@ -50,19 +50,19 @@ $.getJSON("/" + date + "/" + race + "/summary.json", function(summary) {
 		var tmp_data = [];
 		for (var i = 0; i <= N; i++) {
 			var s = Math.exp(Math.log(i/N)*(alpha-1)+Math.log((N-i)/N)*(beta-1)+gamma);
-			tmp_data.push(Math.exp(Math.log(i/N)*(alpha-1)+Math.log((N-i)/N)*(beta-1)+gamma));
-			if (i > 0 && tmp_data[tmp_data.length-1] > 1e-10 && tmp_data[tmp_data.length-2] < 1e-10 && i < min) {
+			tmp_data.push(s);
+			if (i > 0 && tmp_data[tmp_data.length-1] > 1e-5 && tmp_data[tmp_data.length-2] < 1e-5 && i < min) {
 				min = i;
 			}
-			if (i > 0 && tmp_data[tmp_data.length-1] < 1e-10 && tmp_data[tmp_data.length-2] > 1e-10 && i > max) {
+			if (i > 0 && tmp_data[tmp_data.length-1] < 1e-5 && tmp_data[tmp_data.length-2] > 1e-5 && i > max) {
 				max = i;
 			}
 		}
 		data.push({x:x_data, y:tmp_data, mode:'lines', name: summary.forecast[key].candidate, line: {width: 4, color: summary.colors[summary.forecast[key].candidate]}});
 	}
 	for (var i in data) {
-		data[i].x = data[i].x.slice(min, max);
-		data[i].y = data[i].y.slice(min, max);
+		data[i].x = data[i].x.slice(min, max+1);
+		data[i].y = data[i].y.slice(min, max+1);
 	}
 	Plotly.newPlot('forecast', data.reverse(), {margin: {r: 10, t: 30, b: 30, l: 10}, legend: {x: 0.92, y: 0.99}, title: summary.name + ' Forecast', yaxis: {showline: false, showgrid: false, showticklabels: false}, xaxis: {title: 'Percent of vote'}}, {displayModeBar: false});
 });
