@@ -1,12 +1,12 @@
 package ExampleSource
 
 import (
-	. "VoteTracker/Sources"
+	"github.com/argusdusty/VoteTracker/Sources"
 )
 
 var (
-	Updater = FileUpdater{
-		&ExampleSource{
+	Updater = Sources.FileUpdater{
+		Source: &Sources.ExampleSource{
 			Param: "string",
 		},
 	}

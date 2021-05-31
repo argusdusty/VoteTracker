@@ -1,15 +1,16 @@
 package main
 
 import (
-	"VoteTracker/ExampleDate/ExampleRace"
-	. "VoteTracker/Utils"
 	"fmt"
 	"time"
+
+	"github.com/argusdusty/VoteTracker/ExampleDate/ExampleRace"
+	"github.com/argusdusty/VoteTracker/Utils"
 )
 
 var (
-	Updaters = MultiUpdater([]UpdaterDst{
-		UpdaterDst{ExampleRace.Updaters, "ExampleRace"},
+	Updaters = Utils.MultiUpdater([]Utils.UpdaterDst{
+		{U: ExampleRace.Updaters, Dst: "ExampleRace"},
 	})
 	Frequency = 10 * time.Second
 )

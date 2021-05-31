@@ -1,22 +1,23 @@
 package Sources
 
 import (
-	. "VoteTracker/Utils"
 	"fmt"
 	"os"
+
+	"github.com/argusdusty/VoteTracker/Utils"
 )
 
 type Source interface {
-	Load(Summary) (Summary, error)
+	Load(Utils.Summary) (Utils.Summary, error)
 }
 
 type FileUpdater struct {
 	Source Source
 }
 
-func (U FileUpdater) Update(dst string) (result Summary, err error) {
-	var Data Summary
-	err, _ = LoadSummary(dst, &Data)
+func (U FileUpdater) Update(dst string) (result Utils.Summary, err error) {
+	var Data Utils.Summary
+	_, err = Utils.LoadSummary(dst, &Data)
 	if err != nil && !os.IsNotExist(err) {
 		return
 	}

@@ -1,12 +1,12 @@
 package ExampleRace
 
 import (
-	"VoteTracker/ExampleDate/ExampleRace/ExampleSource"
-	. "VoteTracker/Utils"
+	"github.com/argusdusty/VoteTracker/ExampleDate/ExampleRace/ExampleSource"
+	"github.com/argusdusty/VoteTracker/Utils"
 )
 
 var (
-	Updaters = CombinedUpdater([]UpdaterDst{
-		{ExampleSource.Updater, "ExampleSource"},
+	Updaters = Utils.CombinedUpdater([]Utils.UpdaterDst{
+		{U: ExampleSource.Updater, Dst: "ExampleSource"},
 	})
 )

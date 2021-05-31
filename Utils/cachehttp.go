@@ -21,7 +21,7 @@ func LoadURL(url string, f func(io.Reader) (interface{}, error)) (val interface{
 		modTime = v.ModTime
 	}
 	val = v.Value
-	if time.Now().Sub(v.LastLoad) < 2*time.Second { // Prevent flooding any service, reuse cache result with a couple seconds
+	if time.Since(v.LastLoad) < 2*time.Second { // Prevent flooding any service, reuse cache result with a couple seconds
 		return
 	}
 	client := &http.Client{}

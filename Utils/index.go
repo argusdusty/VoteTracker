@@ -25,22 +25,22 @@ func (I Index) GetText() []string {
 	return t
 }
 
-func LoadIndex(I *Index) (error, time.Time) {
+func LoadIndex(I *Index) (modtime time.Time, err error) {
 	f, err := os.Open("index.json")
 	if err != nil {
-		return err, time.Time{}
+		return time.Time{}, err
 	}
 	defer f.Close()
 	stat, err := f.Stat()
 	if err != nil {
-		return json.NewDecoder(f).Decode(I), time.Time{}
+		return time.Time{}, json.NewDecoder(f).Decode(I)
 	}
-	return json.NewDecoder(f).Decode(I), stat.ModTime()
+	return stat.ModTime(), json.NewDecoder(f).Decode(I)
 }
 
 func loadIndex(vars map[string]string) (interface{}, time.Time, error) {
 	var I Index
-	err, modtime := LoadIndex(&I)
+	modtime, err := LoadIndex(&I)
 	return I, modtime, err
 }
 

@@ -29,24 +29,23 @@ func (R Races) GetText(date string, other bool) []string {
 	return t
 }
 
-func LoadRaces(dst string, R *Races) (error, time.Time) {
+func LoadRaces(dst string, R *Races) (modtime time.Time, err error) {
 	f, err := os.Open(path.Join(dst, "races.json"))
 	if err != nil {
-		return err, time.Time{}
+		return time.Time{}, err
 	}
 	defer f.Close()
 	stat, err := f.Stat()
 	if err != nil {
-		return json.NewDecoder(f).Decode(R), time.Time{}
+		return time.Time{}, json.NewDecoder(f).Decode(R)
 	}
-	return json.NewDecoder(f).Decode(R), stat.ModTime()
+	return stat.ModTime(), json.NewDecoder(f).Decode(R)
 }
 
 func loadRaces(vars map[string]string) (interface{}, time.Time, error) {
 	dst := path.Join(vars["date"])
 	var R Races
-	err, modtime := LoadRaces(dst, &R)
-	fmt.Println(err, modtime, R)
+	modtime, err := LoadRaces(dst, &R)
 	return R, modtime, err
 }
 

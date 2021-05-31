@@ -6,6 +6,8 @@ import (
 	"path"
 	"sort"
 	"time"
+
+	"gonum.org/v1/gonum/stat/distmv"
 )
 
 type Forecast []CandidateForecast
@@ -23,23 +25,26 @@ func (F Forecast) Sort() {
 func (F Forecast) SetOdds(sims uint64) {
 	hits := make([]uint64, len(F))
 	sample := make([]float64, len(F))
-	var mx, r float64
+	var mx float64
 	var b int
+	x := make([]float64, len(F))
+	for i, c := range F {
+		x[i] = c.ConcentrationParam
+	}
+	dist := distmv.NewDirichlet(x, nil)
 	for i := uint64(0); i < sims; i++ {
-		mx = 0
-		b = 0
-		for j, c := range F {
-			r = RandGammaVariate(c.ConcentrationParam)
+		mx, b = 0, 0
+		dist.Rand(sample)
+		for j, r := range sample {
 			if r > mx {
 				mx = r
 				b = j
 			}
-			sample[j] = r
 		}
 		hits[b]++
 	}
 	for i, o := range hits {
-		F[i].Odds = float64(o) / float64(sims)
+		F[i].Odds = float64(o+1) / float64(sims+uint64(len(F)))
 	}
 }
 
@@ -76,7 +81,7 @@ func loadForecast(vars map[string]string) (interface{}, time.Time, error) {
 	if vars["source"] != "" {
 		dst = path.Join(dst, vars["source"])
 	}
-	err, modtime := LoadSummary(dst, &S)
+	modtime, err := LoadSummary(dst, &S)
 	if S.Forecast == nil {
 		return nil, modtime, err
 	}

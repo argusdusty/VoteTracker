@@ -148,7 +148,7 @@ func (S Summary) GetText(date, race string) []string {
 
 	if S.PortionComplete > 0 {
 		if S.PortionComplete == 1 {
-			s = append(s, fmt.Sprint("100% complete"))
+			s = append(s, "100% complete")
 		} else {
 			s = append(s, fmt.Sprintf("Estimated percent complete: %.2f%%", S.PortionComplete*100))
 		}
@@ -205,17 +205,17 @@ func (A Summary) Equal(B Summary) bool {
 	return true
 }
 
-func LoadSummary(dst string, S *Summary) (error, time.Time) {
+func LoadSummary(dst string, S *Summary) (modtime time.Time, err error) {
 	f, err := os.Open(path.Join(dst, "summary.json"))
 	if err != nil {
-		return err, time.Time{}
+		return time.Time{}, err
 	}
 	defer f.Close()
 	stat, err := f.Stat()
 	if err != nil {
-		return json.NewDecoder(f).Decode(S), time.Time{}
+		return time.Time{}, json.NewDecoder(f).Decode(S)
 	}
-	return json.NewDecoder(f).Decode(S), stat.ModTime()
+	return stat.ModTime(), json.NewDecoder(f).Decode(S)
 }
 
 func loadSummary(vars map[string]string) (interface{}, time.Time, error) {
@@ -224,7 +224,7 @@ func loadSummary(vars map[string]string) (interface{}, time.Time, error) {
 	if vars["source"] != "" {
 		dst = path.Join(dst, vars["source"])
 	}
-	err, modtime := LoadSummary(dst, &S)
+	modtime, err := LoadSummary(dst, &S)
 	return S, modtime, err
 }
 

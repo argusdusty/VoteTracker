@@ -19,7 +19,7 @@ type CombinedUpdater []UpdaterDst
 
 func (U CombinedUpdater) Update(dst string) (Summary, error) {
 	var Data Summary
-	err, _ := LoadSummary(dst, &Data)
+	_, err := LoadSummary(dst, &Data)
 	if err != nil && !os.IsNotExist(err) {
 		return Summary{}, err
 	}

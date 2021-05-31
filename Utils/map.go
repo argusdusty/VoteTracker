@@ -12,7 +12,7 @@ func loadMap(vars map[string]string) (interface{}, time.Time, error) {
 	if vars["source"] != "" {
 		dst = path.Join(dst, vars["source"])
 	}
-	err, modtime := LoadSummary(dst, &S)
+	modtime, err := LoadSummary(dst, &S)
 	if S.Regions == nil || len(S.Regions) == 0 {
 		return nil, modtime, err
 	}
